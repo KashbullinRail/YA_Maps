@@ -3,7 +3,10 @@ package com.example.ya_maps
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -42,7 +45,11 @@ private fun YAMapsScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
 ) {
-    Column {
+    DisposableEffect(key1 = viewModel) {
+        viewModel.onStart()
+        onDispose { viewModel.onStop() }
+    }
+    Column{
         Text(text = "YA_MAPS")
         Spacer(modifier = Modifier.padding(10.dp))
         Text(text = "говномапс")
@@ -52,7 +59,6 @@ private fun YAMapsScreen(
             viewModel,
             onValueChanged = { viewModel.setMsg(it) }
         )
-
     }
 }
 

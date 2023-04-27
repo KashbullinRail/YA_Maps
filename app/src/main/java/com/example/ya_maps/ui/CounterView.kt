@@ -1,12 +1,11 @@
 package com.example.ya_maps.ui
 
 import android.content.Context
-import android.os.Bundle
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.example.ya_maps.databinding.ComponentCounterBinding
+import com.yandex.mapkit.MapKitFactory
 
 
 class CounterView(
@@ -14,10 +13,21 @@ class CounterView(
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    companion object {
-        const val SuperState = "SuperState"
-        const val Result = "Result"
-    }
+//    companion object {
+//        const val SuperState = "SuperState"
+//        const val Result = "Result"
+//    }
+
+//    fun onStart() {
+//        MapKitFactory.getInstance().onStart()
+//        mapView.onStart()
+//        // start task - the composable has entered the composition
+//    }
+//
+//    fun onStop() {
+//        MapKitFactory.getInstance().onStop()
+//        // cancel task - the composable has left the composition
+//    }
 
     var binding: ComponentCounterBinding
     var result: Int = 0
