@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import com.example.ya_maps.MainActivity
 import com.example.ya_maps.R
 import com.example.ya_maps.databinding.ComponentCounterBinding
 import com.yandex.mapkit.Animation
@@ -43,6 +44,8 @@ class CounterView(
     private val ANIMATED_PLACEMARK_CENTER = Point(55.763482082898018, 37.405733146029167)
     private val PERMISSIONS_REQUEST_FINE_LOCATION = 1
 
+    private var activity = Activity()
+
     private lateinit var mapView: MapView
     private lateinit var userLocationLayer: UserLocationLayer
     private lateinit var sublayerManager: SublayerManager
@@ -56,21 +59,17 @@ class CounterView(
         mapView = binding.mapView
         mapView.map.mapType = MapType.VECTOR_MAP
 
-
         mapView.map.addTapListener(this)
         mapView.map.addInputListener(this)
 
-//        setPoint(state = state)
     }
 
-   fun setPoint(
-       state: Boolean
-   ) {
-       if (state) {
-//           mapView.map.mapType = MapType.SATELLITE
+   fun setPoint() {
 
-           mapView.map.move(
-               CameraPosition(TARGET_LOCATION, 16.0f, 0.0f, 0.0f)
+           mapView.getMap().move(
+               CameraPosition(TARGET_LOCATION, 17.0f, 0.0f, 0.0f),
+               Animation(Animation.Type.SMOOTH, 5f),
+               null
            )
 
            sublayerManager = mapView.map.sublayerManager
@@ -92,8 +91,6 @@ class CounterView(
            polygonMapObject.fillColor = 0x3300FF00
            polygonMapObject.strokeWidth = 3.0f
            polygonMapObject.strokeColor = Color.Cyan.toArgb()
-       }
-
    }
 
     fun userLocation() {
@@ -136,8 +133,7 @@ class CounterView(
                 CameraPosition(TARGET_LOCATION, 15.0f, 0.0f, 0.0f)
             )
             sublayerManager = mapView.map.sublayerManager
-            mapObjects2 = mapView.map.mapObjects
-
+            mapObjects = mapView.map.mapObjects
 
             val points = java.util.ArrayList<Point>()
             points.add(Point(55.76404161831339, 37.40583506997173))
@@ -177,7 +173,6 @@ class CounterView(
             pointsInnner2.add(Point(55.76354951136957, 37.405189867810729))
             pointsInnner2.add(Point(55.763655369092997, 37.405195232228759))
 
-
             val innerRing = java.util.ArrayList<LinearRing>()
             innerRing.add(LinearRing(pointsInnner))
             innerRing.add(LinearRing(pointsInnner2))
@@ -198,17 +193,6 @@ class CounterView(
             polygonMapObject2.strokeWidth = 3.0f
             polygonMapObject2.strokeColor = android.graphics.Color.GREEN
         }
-
-
-    fun setLocalPoint() {
-        mapView.getMap().move(
-            CameraPosition(TARGET_LOCATION, 17.0f, 0.0f, 0.0f),
-            Animation(Animation.Type.SMOOTH, 5f),
-            null
-        )
-
-    }
-
 
     override fun onObjectAdded(userLocationView: UserLocationView) {
         userLocationLayer.setAnchor(

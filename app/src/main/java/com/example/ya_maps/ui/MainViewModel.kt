@@ -10,19 +10,31 @@ class MainViewModel : ViewModel(), DefaultLifecycleObserver {
 
     fun onStart() {
         MapKitFactory.getInstance().onStart()
-        // start task - the composable has entered the composition
     }
 
     fun onStop() {
         MapKitFactory.getInstance().onStop()
-        // cancel task - the composable has left the composition
     }
 
     private var _msg = MutableStateFlow<Boolean>(false)
     val msg: StateFlow<Boolean> = _msg.asStateFlow()
 
+    private var _userLoc = MutableStateFlow<Boolean>(false)
+    val userLoc: StateFlow<Boolean> = _userLoc.asStateFlow()
+
+    private var _poligon = MutableStateFlow<Boolean>(false)
+    val poligon: StateFlow<Boolean> = _poligon.asStateFlow()
+
     fun setMsg(value: Boolean) {
         _msg.value = value
+    }
+
+    fun userLocationOn(value: Boolean) {
+        _userLoc.value = value
+    }
+
+    fun createPoligon(value: Boolean) {
+       _poligon.value = value
     }
 
 }
