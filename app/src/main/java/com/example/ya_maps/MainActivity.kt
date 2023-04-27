@@ -50,15 +50,18 @@ private fun YAMapsScreen(
         onDispose { viewModel.onStop() }
     }
     Column{
-        Text(text = "YA_MAPS")
-        Spacer(modifier = Modifier.padding(10.dp))
-        Text(text = "говномапс")
-        Spacer(modifier = Modifier.padding(10.dp))
+        Box {
+            Text(text = "YA_MAPS")
+            Spacer(modifier = Modifier.padding(10.dp))
+            Text(text = "говномапс")
+            Spacer(modifier = Modifier.padding(10.dp))
 
-        XMLCounter(
-            viewModel,
-            onValueChanged = { viewModel.setMsg(it) }
-        )
+            XMLCounter(
+                viewModel,
+                onValueChanged = { viewModel.setMsg(it) }
+            )
+        }
+
     }
 }
 
@@ -72,29 +75,20 @@ fun XMLCounter(
         factory = { context ->
             CounterView(context).apply {
                 // Example of View -> Compose communication
-                binding.up.setOnClickListener {
-                    resultState = viewModel.msg.value?.plus(1) ?: 1
-                    onValueChanged.invoke(resultState)
-                }
-                binding.down.setOnClickListener {
-                    resultState =viewModel.msg.value?.minus(1) ?: -1
-                    onValueChanged.invoke(resultState)
-                }
+//                binding.up.setOnClickListener {
+//                    resultState = viewModel.msg.value?.plus(1) ?: 1
+//                    onValueChanged.invoke(resultState)
+//                }
+//                binding.down.setOnClickListener {
+//                    resultState =viewModel.msg.value?.minus(1) ?: -1
+//                    onValueChanged.invoke(resultState)
+//                }
 
             }
         },
         update = { counterView ->
-            // Example of Compose -> View communication
-            counterView.binding.result.text = resultState.toString()
+
+//            counterView.binding.result.text = resultState.toString()
         }
     )
-}
-
-
-@Composable
-fun XmlYAMapsView(
-    viewModel: MainViewModel,
-    onValueChanged: (Int) -> Unit
-) {
-
 }
