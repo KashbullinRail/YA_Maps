@@ -33,21 +33,21 @@ class CounterView(
 //        }
     }
 
-    override fun onSaveInstanceState(): Parcelable {
-        super.onSaveInstanceState()
-        val bundle = Bundle()
-        bundle.putInt(Result, result)
-        bundle.putParcelable(SuperState, super.onSaveInstanceState())
-        return bundle
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable?) {
-        (state as Bundle?)?.let {
-            result = it.getInt(Result)
-            binding.result.text = result.toString()
-            super.onRestoreInstanceState(it.getParcelable(SuperState))
-        }
-    }
+//    override fun onSaveInstanceState(): Parcelable {
+//        super.onSaveInstanceState()
+//        val bundle = Bundle()
+//        bundle.putInt(Result, result)
+//        bundle.putParcelable(SuperState, super.onSaveInstanceState())
+//        return bundle
+//    }
+//
+//    override fun onRestoreInstanceState(state: Parcelable?) {
+//        (state as Bundle?)?.let {
+//            result = it.getInt(Result)
+//            binding.result.text = result.toString()
+//            super.onRestoreInstanceState(it.getParcelable(SuperState))
+//        }
+//    }
 
 
 //    private fun addPoint() {
