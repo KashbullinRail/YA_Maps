@@ -3,14 +3,13 @@ package com.example.ya_maps
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -21,13 +20,13 @@ import com.example.ya_maps.ui.theme.YA_MapsTheme
 class MainActivity : ComponentActivity() {
 
     private val viewModel by lazy { MainViewModel() }
+//    private val counterView by lazy { CounterView(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             YA_MapsTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -45,50 +44,65 @@ private fun YAMapsScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
 ) {
+    val state = viewModel.msg.collectAsState()
+
     DisposableEffect(key1 = viewModel) {
         viewModel.onStart()
         onDispose { viewModel.onStop() }
     }
-    Column{
-        Box {
-            Text(text = "YA_MAPS")
-            Spacer(modifier = Modifier.padding(10.dp))
+    Column(
+        verticalArrangement = Arrangement.SpaceAround,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Box(
+            modifier = Modifier
+                .padding(2.dp)
+                .fillMaxSize(),
+            Alignment.TopCenter,
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .wrapContentSize()
+            ) {
+                XMLCounter(
+                    modifier = Modifier,
+                    state,
+                )
+            }
+            Text(text = "ГОВНОМАПС")
             Text(text = "говномапс")
             Spacer(modifier = Modifier.padding(10.dp))
 
-            XMLCounter(
-                viewModel,
-                onValueChanged = { viewModel.setMsg(it) }
-            )
+            Button(
+                modifier = Modifier
+                    .height(20.dp)
+                    .width(100.dp),
+                onClick = {
+                    viewModel.setMsg(true)
+                }) {
+            }
         }
-
     }
 }
 
 @Composable
 fun XMLCounter(
-    viewModel: MainViewModel,
-    onValueChanged: (Int) -> Unit
+    modifier: Modifier = Modifier,
+    state: State<Boolean>,
 ) {
-    var resultState by remember { mutableStateOf(0) }
     AndroidView(
         factory = { context ->
             CounterView(context).apply {
-                // Example of View -> Compose communication
-//                binding.up.setOnClickListener {
-//                    resultState = viewModel.msg.value?.plus(1) ?: 1
-//                    onValueChanged.invoke(resultState)
-//                }
-//                binding.down.setOnClickListener {
-//                    resultState =viewModel.msg.value?.minus(1) ?: -1
-//                    onValueChanged.invoke(resultState)
-//                }
 
             }
         },
         update = { counterView ->
+            if (state.value) {
+                counterView.setPoint(state.value)
+                counterView.invalidate()
+            }
 
-//            counterView.binding.result.text = resultState.toString()
         }
     )
 }

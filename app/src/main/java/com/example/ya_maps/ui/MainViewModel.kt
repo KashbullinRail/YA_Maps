@@ -2,6 +2,9 @@ package com.example.ya_maps.ui
 
 import androidx.lifecycle.*
 import com.yandex.mapkit.MapKitFactory
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class MainViewModel : ViewModel(), DefaultLifecycleObserver {
 
@@ -15,11 +18,11 @@ class MainViewModel : ViewModel(), DefaultLifecycleObserver {
         // cancel task - the composable has left the composition
     }
 
-    private var _msg = MutableLiveData<Int>()
-    val msg: LiveData<Int> = _msg
+    private var _msg = MutableStateFlow<Boolean>(false)
+    val msg: StateFlow<Boolean> = _msg.asStateFlow()
 
-    fun setMsg(count: Int) {
-        _msg.value = count
+    fun setMsg(value: Boolean) {
+        _msg.value = value
     }
 
 }
