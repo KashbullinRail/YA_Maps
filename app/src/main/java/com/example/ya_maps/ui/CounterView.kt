@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.alpha
 import com.example.ya_maps.MainActivity
 import com.example.ya_maps.R
 import com.example.ya_maps.databinding.ComponentCounterBinding
@@ -54,9 +55,10 @@ class CounterView(
     var binding: ComponentCounterBinding
 
     init {
+        MapKitFactory.initialize(context)
         binding = ComponentCounterBinding.inflate(LayoutInflater.from(context), this, true)
         mapView = binding.mapView
-        mapView.map.mapType = MapType.VECTOR_MAP
+        mapView.map.mapType = MapType.MAP
     }
 
     fun mapViewStart() {
@@ -79,6 +81,8 @@ class CounterView(
 
         val circle = Circle(TARGET_LOCATION, 100f)
         mapObjects.addCircle(circle, Color.Cyan.toArgb(), 2f, Color.LightGray.toArgb())
+        mapObjects.zIndex = 0f
+
 
         val points = ArrayList<Point>()
         points.add(Point(59.949911, 30.316560))
@@ -117,7 +121,7 @@ class CounterView(
         mapView.map.addInputListener(this)
 
         mapView.map.move(
-            CameraPosition(TARGET_LOCATION, 15.0f, 0.0f, 0.0f)
+            CameraPosition(TARGET_LOCATION, 16.0f, 0.0f, 0.0f)
         )
         sublayerManager = mapView.map.sublayerManager
         mapObjects = mapView.map.mapObjects
@@ -167,10 +171,11 @@ class CounterView(
         mapObjects.addPlacemark(
             ANIMATED_PLACEMARK_CENTER,
             ImageProvider.fromResource(context, R.drawable.img),
-            IconStyle().setAnchor(PointF(0.5f, 0.5f))
+            IconStyle()
+                .setAnchor(PointF(0.5f, 0.5f))
                 .setRotationType(RotationType.ROTATE)
                 .setZIndex(0f)
-                .setScale(0.5f)
+                .setScale(1f)
         )
 
         val polygon = Polygon(LinearRing(points), innerRing)
