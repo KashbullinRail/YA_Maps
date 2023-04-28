@@ -10,11 +10,16 @@ class MainViewModel : ViewModel(), DefaultLifecycleObserver {
 
     fun onStart() {
         MapKitFactory.getInstance().onStart()
+        mapViewState(true)
     }
 
     fun onStop() {
+        mapViewState(false)
         MapKitFactory.getInstance().onStop()
     }
+
+    private var _mapViewState = MutableStateFlow<Boolean>(false)
+    val mapViewState: StateFlow<Boolean> = _mapViewState.asStateFlow()
 
     private var _msg = MutableStateFlow<Boolean>(false)
     val msg: StateFlow<Boolean> = _msg.asStateFlow()
@@ -35,6 +40,10 @@ class MainViewModel : ViewModel(), DefaultLifecycleObserver {
 
     fun createPoligon(value: Boolean) {
        _poligon.value = value
+    }
+
+    fun mapViewState(value: Boolean) {
+        _mapViewState.value = value
     }
 
 }
